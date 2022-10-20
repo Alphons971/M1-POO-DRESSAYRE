@@ -3,6 +3,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+
 import java.net.Socket;
 
 public class Client {
@@ -19,8 +20,8 @@ public class Client {
 		Integer I= (Integer)objIn.readObject();
 		System.out.println("Client:");
 		System.out.println(I);
-		//UnObjet O= new UnObjet("test") ;
-		//objOut.writeObject(O);
+		Integer O= 5 ;
+		objOut.writeObject(O);
 		s.close();
 		} catch (IOException e) {System.err.println(e);} 
 		catch (ClassNotFoundException e) {
