@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -5,13 +6,18 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.*;
+
+
+
 import java.lang.reflect.Field;
-public class Client {
+public class Client{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		
 		Socket s=null;
 		Scanner sc=new Scanner(System.in);
+		
 		try {
 			
 			System.out.println("C >>> Demande de connexion au serveur");
@@ -109,4 +115,14 @@ public class Client {
 			e.printStackTrace();
 		} 
 	}
+
+	
+
+
+
+
+	
+	
+	
+	
 }
