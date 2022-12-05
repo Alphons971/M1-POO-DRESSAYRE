@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -6,17 +5,170 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.*;
-
-
-
 import java.lang.reflect.Field;
-public class Client{
+public class Client {
+	
+	
+	public static void Saisie(Object o) {
+		
+		Scanner sc=new Scanner(System.in);
+		//System.out.println(sc);
+		ArrayList<String> type_primitif = new ArrayList<String>(Arrays.asList("String","char","int","Integer","Double","double","Boolean","boolean","float","Float","Short","short","Long","long","Byte","byte"));
+		Object val=null;
+		for(Field f :o.getClass().getFields()) {
+	  		System.out.println(f.getType().getSimpleName()+" : "+f.getName()+"\n");
+	  		if(type_primitif.contains(f.getType().getSimpleName())) {
+	  			
+				
+				System.out.println("Entrer le "+f.getName()+"\n"); 
+				boolean err_saisie;
+		  		switch (f.getType().getSimpleName()) 
+		  		{
+					case "String":
+					case "char":
+						do {
+							err_saisie=false;
+							try {
+								
+								val=sc.nextLine();
+								
+							}catch(InputMismatchException e) {
+								err_saisie=true;
+								sc.nextLine();
+								System.out.println("Saisie incorrecte.");
+							}
+						}while(err_saisie);
+						
+						
+						break;
+						
+					case "int":
+					case "Integer":
+						do {
+							err_saisie=false;
+							try {
+								
+								val=sc.nextInt();
+							}catch(InputMismatchException e) {
+								err_saisie=true;
+								sc.nextLine();
+								System.out.println("Saisie incorrecte.");
+							}
+						}while(err_saisie);
+						
+						break;
+					case "double":
+					case "Double":
+						do {
+							//System.out.println("coucou");
+							err_saisie=false;
+							try {
+								
+								val=sc.nextDouble();
+							}catch(InputMismatchException e) {
+								err_saisie=true;
+								sc.nextLine();
+								System.out.println("Saisie incorrecte.");
+							}
+						}while(err_saisie);
+						break;
+					case "float":
+					case "Float":
+						do {
+							err_saisie=false;
+							try {
+								
+								val=sc.nextFloat();
+							}catch(InputMismatchException e) {
+								err_saisie=true;
+								sc.nextLine();
+								System.out.println("Saisie incorrecte.");
+							}
+						}while(err_saisie);
+						break;
+					case "short":
+					case "Short":
+						do {
+							err_saisie=false;
+							try {
+								
+								val=sc.nextShort();
+							}catch(InputMismatchException e) {
+								err_saisie=true;
+								sc.nextLine();
+								System.out.println("Saisie incorrecte.");
+							}
+						}while(err_saisie);
+						break;
+					case "byte":
+					case "Byte":
+						do {
+							err_saisie=false;
+							try {
+							
+								val=sc.nextByte();
+							}catch(InputMismatchException e) {
+								err_saisie=true;
+								sc.nextLine();
+								System.out.println("Saisie incorrecte.");
+							}
+						}while(err_saisie);
+						break;
+					case "boolean":
+					case "Boolean":
+						do {
+							err_saisie=false;
+							try {
+								
+								val=sc.nextBoolean();
+							}catch(InputMismatchException e) {
+								err_saisie=true;
+								sc.nextLine();
+								System.out.println("Saisie incorrecte.");
+							}
+						}while(err_saisie);
+						break;
+					case "long":
+					case "Long":
+						do {
+							err_saisie=false;
+							try {
+								
+								val=sc.nextLong();
+							}catch(InputMismatchException e) {
+								err_saisie=true;
+								sc.nextLine();
+								System.out.println("Saisie incorrecte.");
+							}
+						}while(err_saisie);
+						break;	
+					default:
+						System.out.println("Erreur");
+				}
+		  		try {
+					f.set(o, val);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		  		
+			 }
+	  		else{
+				 try {
+					Saisie(f.get(o));
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }	
+	  	}
+		 
+		//sc.close();
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		
 		Socket s=null;
-		Scanner sc=new Scanner(System.in);
 		
 		try {
 			
@@ -25,10 +177,11 @@ public class Client{
 			s=new Socket("localhost",50263); 
 			
 			// Récupération des flux d’entrée/sortie
+			OutputStream out = s.getOutputStream();
+		 	ObjectOutputStream objOut = new ObjectOutputStream(out);
 			InputStream in = s.getInputStream();
 		  	ObjectInputStream objIn = new ObjectInputStream(in);
-		 	OutputStream out = s.getOutputStream();
-		 	ObjectOutputStream objOut = new ObjectOutputStream(out);
+		 	
 		 	// Récupération des flux d’entrée/sortie
 	 		//Lecture de l'objet
 		  	System.out.println("C >>> Lecture d'un Object");
@@ -44,52 +197,8 @@ public class Client{
 			  	System.out.println("C >>> Classe de l'objet : "+o.getClass().getSimpleName());
 			  	System.out.println("C >>> Attributs :");
 			  	
+			  	Saisie(o);
 			  	
-			  	for(Field f :o.getClass().getFields()) {
-			  		System.out.println(f.getType().getSimpleName()+" : "+f.getName()+"\n");
-			  		Object val=null;
-			  		System.out.println("Entrer le "+f.getName()+"\n");
-			  		switch (f.getType().getSimpleName()) {
-					case "String":
-						val=sc.nextLine();
-						break;
-						
-					case "int":
-					case "Integer":
-						val=sc.nextInt();
-						break;
-					case "double":
-					case "Double":
-						val=sc.nextDouble();
-						break;
-					case "float":
-					case "Float":
-						val=sc.nextFloat();
-						break;
-					case "short":
-					case "Short":
-						val=sc.nextShort();
-						break;
-					case "byte":
-					case "Byte":
-						val=sc.nextInt();
-						break;
-					case "boolean":
-					case "Boolean":
-						val=sc.nextBoolean();
-						break;
-					case "long":
-					case "Long":
-						val=sc.nextLong();
-						break;	
-					default:
-						System.out.println("Erreur");
-					}
-			  		
-			  		
-			  		f.set(o, val);
-			  		
-			  	}
 	 			
 	 			
 			  	//On renvoie l'objet
@@ -110,19 +219,6 @@ public class Client{
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} 
 	}
-
-	
-
-
-
-
-	
-	
-	
-	
 }
