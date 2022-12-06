@@ -173,23 +173,23 @@ public class Client {
 		try {
 			
 			System.out.println("C >>> Demande de connexion au serveur");
-			// Création du socket
-			s=new Socket("localhost",50263); 
+			// Crï¿½ation du socket
+			s=new Socket("localhost",52853); 
 			
-			// Récupération des flux d’entrée/sortie
+			// Rï¿½cupï¿½ration des flux dï¿½entrï¿½e/sortie
 			OutputStream out = s.getOutputStream();
 		 	ObjectOutputStream objOut = new ObjectOutputStream(out);
 			InputStream in = s.getInputStream();
 		  	ObjectInputStream objIn = new ObjectInputStream(in);
 		 	
-		 	// Récupération des flux d’entrée/sortie
+		 	// Rï¿½cupï¿½ration des flux dï¿½entrï¿½e/sortie
 	 		//Lecture de l'objet
 		  	System.out.println("C >>> Lecture d'un Object");
 	 		Object o=(Object)objIn.readObject();
 	 		//System.out.println(o);
-	 		//On vérifie si c'est un message de déconnexion
+	 		//On vï¿½rifie si c'est un message de dï¿½connexion
 	 		if(o instanceof String && o.equals("deconnecteToi")) {
-	 			System.out.println("C >>> il n'y plus d'objets déconnexion");
+	 			System.out.println("C >>> il n'y plus d'objets dï¿½connexion");
 	 			s.close();
 	 		}
 	 		else {
@@ -204,7 +204,7 @@ public class Client {
 			  	//On renvoie l'objet
 			  	System.out.println("C>>Envoi d'un objets");
 				objOut.writeObject(o);
-				//Déconnexion
+				//Dï¿½connexion
 			  	s.close();
 	 		}
 		  	//System.out.println(o);
