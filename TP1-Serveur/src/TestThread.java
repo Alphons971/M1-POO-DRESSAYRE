@@ -32,7 +32,7 @@ public class TestThread extends Thread {
 			InputStream in = client.getInputStream();
 			ObjectInputStream objIn = new ObjectInputStream(in);
 			
-			//On verrouille la liste d'objets à  envoyés
+			//On synchronized sur la liste d'objets à  envoyés
 			Object o=null;
 			synchronized(l_send){
 				//On vérifie si elle est vide
@@ -45,7 +45,7 @@ public class TestThread extends Thread {
 					
 				}
 				else {
-						//System.out.println("T>>Envoi d'un objets et modification liste");
+						System.out.println("T>>Envoi d'un objets et modification liste");
 						o=l_send.get(l_send.size()-1);
 						l_send.remove(l_send.get(l_send.size()-1));
 						

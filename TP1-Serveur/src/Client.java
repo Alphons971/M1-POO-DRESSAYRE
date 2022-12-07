@@ -19,7 +19,70 @@ import javax.swing.JPanel;
 
 import java.lang.reflect.Field;
 public class Client {
-	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Socket s=null;
+		
+		try {
+			
+			System.out.println("C >>> Demande de connexion au serveur");
+			// Création du socket
+			s=new Socket("localhost",50263); 
+			
+			// Récupération des flux d’entrée/sortie
+			OutputStream out = s.getOutputStream();
+		 	ObjectOutputStream objOut = new ObjectOutputStream(out);
+			InputStream in = s.getInputStream();
+		  	ObjectInputStream objIn = new ObjectInputStream(in);
+		 	
+		 	// Récupération des flux d’entrée/sortie
+	 		//Lecture de l'objet
+		  	System.out.println("C >>> Lecture d'un Object");
+	 		Object o=(Object)objIn.readObject();
+	 		//System.out.println(o);
+	 		//On vérifie si c'est un message de déconnexion
+	 		if(o instanceof String && o.equals("deconnecteToi")) {
+	 			System.out.println("C >>> il n'y plus d'objets déconnexion");
+	 			s.close();
+	 		}
+	 		else {
+	 			//Saisie des valeurs console 
+			  	System.out.println("C >>> Classe de l'objet : "+o.getClass().getSimpleName());
+			  	System.out.println("C >>> Attributs :");
+//			  	Saisie(o);
+	 			
+	 			//Saisie des valeurs graphique
+	 			Graphique g=new Graphique();
+	 			g.init();
+	 			g.fenetre.setTitle(o.getClass().getSimpleName());
+			  	SaisieGraphique(o,g);
+			  	g.contenu.add(g.btnok);
+			  	g.fenetre.pack();
+
+			  	
+	 			
+	 			
+			  	//On renvoie l'objet
+			  	System.out.println("C>>Envoi d'un objets");
+				//objOut.writeObject(o);
+				//Déconnexion
+			  	s.close();
+	 		}
+		  	//System.out.println(o);
+		  	//System.out.println(s.isClosed());
+			  	
+		} catch (IOException e) {
+			//System.err.println(e);
+		} 
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
 	
 	public static void Saisie(Object o) {
 		
@@ -231,68 +294,5 @@ public static void SaisieGraphique(Object o,Graphique g) {
 	
 	
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		Socket s=null;
-		
-		try {
-			
-			System.out.println("C >>> Demande de connexion au serveur");
-			// Création du socket
-			s=new Socket("localhost",50263); 
-			
-			// Récupération des flux d’entrée/sortie
-			OutputStream out = s.getOutputStream();
-		 	ObjectOutputStream objOut = new ObjectOutputStream(out);
-			InputStream in = s.getInputStream();
-		  	ObjectInputStream objIn = new ObjectInputStream(in);
-		 	
-		 	// Récupération des flux d’entrée/sortie
-	 		//Lecture de l'objet
-		  	System.out.println("C >>> Lecture d'un Object");
-	 		Object o=(Object)objIn.readObject();
-	 		//System.out.println(o);
-	 		//On vérifie si c'est un message de déconnexion
-	 		if(o instanceof String && o.equals("deconnecteToi")) {
-	 			System.out.println("C >>> il n'y plus d'objets déconnexion");
-	 			s.close();
-	 		}
-	 		else {
-	 			//Saisie des valeurs console 
-			  	System.out.println("C >>> Classe de l'objet : "+o.getClass().getSimpleName());
-			  	System.out.println("C >>> Attributs :");
-//			  	Saisie(o);
-	 			
-	 			//Saisie des valeurs graphique
-	 			Graphique g=new Graphique();
-	 			g.init();
-	 			g.fenetre.setTitle(o.getClass().getSimpleName());
-			  	SaisieGraphique(o,g);
-			  	g.contenu.add(g.btnok);
-			  	g.fenetre.pack();
 
-			  	
-	 			
-	 			
-			  	//On renvoie l'objet
-			  	System.out.println("C>>Envoi d'un objets");
-				//objOut.writeObject(o);
-				//Déconnexion
-			  	s.close();
-	 		}
-		  	//System.out.println(o);
-		  	//System.out.println(s.isClosed());
-			  	
-		} catch (IOException e) {
-			//System.err.println(e);
-		} 
-		catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	}
 }

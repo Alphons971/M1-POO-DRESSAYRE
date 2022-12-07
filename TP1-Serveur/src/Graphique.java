@@ -14,7 +14,7 @@ public class Graphique {
 	JButton btnok;
 	public void init() {
 		fenetre =new JFrame();
-		fenetre.setTitle("Client_server");
+		fenetre.setTitle("Client/Server");
 		fenetre.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		fenetre.setLocationRelativeTo(null);
 		contenu=fenetre.getContentPane();
@@ -61,10 +61,7 @@ public class Graphique {
 				break;
 			case "double":
 			case "Double":
-				//Ici je vais mettre Integer.class, Integer.MIN_VALUE,
-				//Integer.MAX_VALUE pour pouvoir mettre le signe "-" 
-				// car Double.MIN_VALUE et Float.MIN_VAlue sont positifs.
-				 format.setMinimumFractionDigits(1);
+				format.setMinimumFractionDigits(1);
 				 format.setMaximumFractionDigits(5);
 				 formatter.setValueClass(Integer.class);
 				 formatter.setMinimum(Integer.MIN_VALUE);
